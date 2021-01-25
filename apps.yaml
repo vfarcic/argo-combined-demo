@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: production
+  source:
+    repoURL: https://github.com/vfarcic/argocd-production.git
+    targetRevision: HEAD
+    path: kustomize
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- namespace.yaml
+- github.com/argoproj/argo-events/manifests/base/crds
+- argo-events-sa.yaml
+- github.com/argoproj/argo-events/manifests/base/eventsource-controller
+- github.com/argoproj/argo-events/manifests/base/sensor-controller
+- github.com/argoproj/argo-events/manifests/base/eventbus-controller
+- github.com/argoproj/argo-events/manifests/cluster-install/rbac
+- event-bus.yaml
+namespace: argo-events
+

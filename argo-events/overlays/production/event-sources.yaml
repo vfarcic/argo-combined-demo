@@ -1,0 +1,51 @@
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github
+spec:
+  service:
+    ports:
+    - port: 12000
+      targetPort: 12000
+  github:
+    argo-workflows-demo:
+      owner: vfarcic
+      repository: argo-workflows-demo
+      webhook:
+        endpoint: /argo-workflows-demo
+        port: "12000"
+        method: POST
+        url: http://acme.com
+      events:
+        - "*"
+      apiToken:
+        name: github-access
+        key: token
+      insecure: true
+      active: true
+      contentType: json
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: github
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+           name: github-eventsource-svc
+           port:
+             number: 12000
+    host: acme.com

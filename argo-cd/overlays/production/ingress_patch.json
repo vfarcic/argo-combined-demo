@@ -1,0 +1,7 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/rules/0/host",
+    "value": "argo-cd.52.186.90.232.xip.io"
+  }
+]

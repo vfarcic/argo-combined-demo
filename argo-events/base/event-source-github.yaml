@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: github-eventsource
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /push
+        pathType: Prefix
+        backend:
+          service:
+           name: webhook-eventsource-svc
+           port:
+             number: 12000
+    host: acme.com
+
