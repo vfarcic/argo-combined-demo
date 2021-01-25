@@ -3,10 +3,11 @@ kind: Kustomization
 resources:
 - ../../base
 - ../workflows
+- regcred.yaml
 patches:
 - path: ingress_patch.json
   target:
     group: networking.k8s.io
-    version: v1
     kind: Ingress
     name: argo-server
+    version: v1
