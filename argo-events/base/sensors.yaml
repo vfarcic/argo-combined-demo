@@ -1,0 +1,55 @@
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: webhook
+spec:
+  template:
+    serviceAccountName: argo-events-sa
+  dependencies:
+  - name: github
+    eventSourceName: github
+    eventName: argo-workflows-demo
+  triggers:
+  - template:
+      name: trigger
+      argoWorkflow:
+        group: argoproj.io
+        version: v1alpha1
+        resource: workflows
+        operation: submit
+        source:
+          resource:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:
+              generateName: argo-workflows-demo-
+              namespace: workflows
+            spec:
+              entrypoint: build
+              serviceAccountName: workflow
+              volumes:
+              - name: regcred
+                secret:
+                  secretName: regcred
+                  items:
+                    - key: .dockerconfigjson
+                      path: config.json
+              templates:
+              - name: build
+                dag:
+                  tasks:
+                  - name: build
+                    templateRef:
+                      name: container-image
+                      template: build-kaniko-git
+                      clusterScope: true
+                    arguments:
+                      parameters:
+                      - name: app_repo
+                        value: git://github.com/vfarcic/argo-workflows-demo
+                      - name: container_image
+                        value: vfarcic/devops-toolkit
+                      - name: container_tag
+                        value: "1.0.0"
