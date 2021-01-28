@@ -59,7 +59,7 @@ spec:
                         value: vfarcic/devops-toolkit
                       - name: container_tag
                         value: "1.0.0"
-              - name: my-task
+              - name: test
                 inputs:
                   parameters:
                   - name: message
@@ -68,3 +68,8 @@ spec:
                   command: [echo]
                   args:
                   - "{{inputs.parameters.message}}"
+        parameters:
+          - src:
+              dependencyName: github
+              dataKey: body.message
+            dest: spec.containers.0.args.1
