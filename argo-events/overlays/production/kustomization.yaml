@@ -4,6 +4,7 @@ resources:
 - ../../base
 - event-sources.yaml
 - sensors.yaml
+- githubcred.yaml
 namespace: argo-events
 patches:
 - path: ingress_patch.json
