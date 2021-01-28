@@ -40,6 +40,12 @@ spec:
               - name: build
                 dag:
                   tasks:
+                  - name: test
+                    template: test
+                    arguments:
+                      parameters:
+                      - name: message
+                        value: This is the message
                   - name: build
                     templateRef:
                       name: container-image
@@ -53,3 +59,12 @@ spec:
                         value: vfarcic/devops-toolkit
                       - name: container_tag
                         value: "1.0.0"
+              - name: my-task
+                inputs:
+                  parameters:
+                  - name: message
+                container:
+                  image: alpine
+                  command: [echo]
+                  args:
+                  - "{{inputs.parameters.message}}"
