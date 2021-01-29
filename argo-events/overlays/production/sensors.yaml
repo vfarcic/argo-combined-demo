@@ -40,13 +40,6 @@ spec:
               - name: build
                 dag:
                   tasks:
-                  # TODO: Remove
-                  - name: test
-                    template: test
-                    arguments:
-                      parameters:
-                      - name: message
-                        value: This is a message
                   - name: build
                     templateRef:
                       name: container-image
@@ -60,22 +53,16 @@ spec:
                         value: vfarcic/devops-toolkit
                       - name: container_tag
                         value: "1.0.0"
-              - name: test
-                inputs:
-                  parameters:
-                  - name: message
-                container:
-                  image: alpine
-                  command: [echo]
-                  args:
-                  - "{{inputs.parameters.message}}"
         parameters:
-        # TODO: Remove
         - src:
             dependencyName: github
-            dataKey: body.repository
+            dataKey: body.repository.git_url
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
         - src:
             dependencyName: github
             dataKey: body.repository.full_name
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.1.value
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.1.value
+        - src:
+            dependencyName: github
+            dataKey: body.after
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
