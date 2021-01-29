@@ -71,6 +71,6 @@ spec:
         parameters:
         - src:
             dependencyName: github
-            dataTemplate: "{{ .Input.body.ref }}"
+            dataKey: body.ref
           # dest: spec.templates.1.container.args.0
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
