@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/vfarcic/argo-combined-demo.git
     targetRevision: HEAD
-    path: kustomize
+    path: production
   destination:
     server: https://kubernetes.default.svc
     namespace: argo

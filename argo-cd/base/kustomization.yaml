@@ -3,12 +3,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - github.com/argoproj/argo-cd/manifests/crds
-- github.com/argoproj/argo-cd/manifests/base/application-controller
-- github.com/argoproj/argo-cd/manifests/base/dex
-- github.com/argoproj/argo-cd/manifests/base/repo-server
-- github.com/argoproj/argo-cd/manifests/base/server
-- github.com/argoproj/argo-cd/manifests/base/config
-- github.com/argoproj/argo-cd/manifests/base/redis
+- github.com/argoproj/argo-cd/manifests/base
 - github.com/argoproj/argo-cd/manifests/cluster-rbac
 - ingress.yaml
 namespace: argocd
