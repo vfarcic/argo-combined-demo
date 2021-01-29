@@ -31,3 +31,4 @@ spec:
             value: vfarcic/devops-toolkit
           - name: container_tag
             value: "1.0.0"
+
