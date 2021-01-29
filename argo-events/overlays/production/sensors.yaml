@@ -10,7 +10,7 @@ spec:
   dependencies:
   - name: github
     eventSourceName: github
-    eventName: argo-workflows-demo
+    eventName: argo-combined-demo
   triggers:
   - template:
       name: trigger
@@ -24,7 +24,7 @@ spec:
             apiVersion: argoproj.io/v1alpha1
             kind: Workflow
             metadata:
-              generateName: argo-workflows-demo-
+              generateName: argo-combined-demo-
               namespace: workflows
             spec:
               entrypoint: build
@@ -47,12 +47,9 @@ spec:
                       clusterScope: true
                     arguments:
                       parameters:
-                      - name: app_repo
-                        value: git://github.com/vfarcic/argo-workflows-demo
+                      - name: repo_url
+                        value: git://github.com//argo-combined-demo
                       - name: container_image
-                        value: vfarcic/devops-toolkit
+                        value: /argo-combined-demo
                       - name: container_tag
                         value: "1.0.0"
-                  # TODO: Push to the staging repo
-                  # TODO: Run functional tests
-                  # TODO: Push to the production repo (use Canary deployments)
