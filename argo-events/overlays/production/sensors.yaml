@@ -48,8 +48,8 @@ spec:
                     arguments:
                       parameters:
                       - name: repo_url
-                        value: git://github.com//argo-combined-demo
+                        value: git://github.com/vfarcic/argo-combined-demo
                       - name: container_image
-                        value: /argo-combined-demo
+                        value: vfarcic/argo-combined-demo
                       - name: container_tag
                         value: "1.0.0"
