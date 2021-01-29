@@ -12,9 +12,9 @@ spec:
   github:
     argo-workflows-demo:
       owner: vfarcic
-      repository: argo-workflows-demo
+      repository: argo-combined-demo
       webhook:
-        endpoint: /argo-workflows-demo
+        endpoint: /argo-combined-demo
         port: "12000"
         method: POST
         url: http://acme.com

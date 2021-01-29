@@ -10,7 +10,7 @@ spec:
   dependencies:
   - name: github
     eventSourceName: github
-    eventName: argo-workflows-demo
+    eventName: argo-combined-demo
   triggers:
   - template:
       name: trigger
@@ -24,7 +24,7 @@ spec:
             apiVersion: argoproj.io/v1alpha1
             kind: Workflow
             metadata:
-              generateName: argo-workflows-demo-
+              generateName: argo-combined-demo-
               namespace: workflows
             spec:
               entrypoint: build
@@ -47,8 +47,12 @@ spec:
                       clusterScope: true
                     arguments:
                       parameters:
-                      - name: app_repo
-                        value: git://github.com/vfarcic/argo-workflows-demo
+                      - name: repo_url
+                        value: ""
+                      - name: repo_ref
+                        value: ""
+                      - name: repo_commit_id
+                        value: ""
                       - name: container_image
                         value: vfarcic/devops-toolkit
                       - name: container_tag
@@ -60,9 +64,17 @@ spec:
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
         - src:
             dependencyName: github
-            dataKey: body.repository.full_name
+            dataKey: body.repository.ref
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.1.value
         - src:
             dependencyName: github
-            dataKey: body.after
+            dataKey: body.repository.after
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.full_name
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.3.value
+        - src:
+            dependencyName: github
+            dataKey: body.after
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value

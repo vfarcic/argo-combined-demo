@@ -1,0 +1,145 @@
+# Site settings
+baseURL = "/"
+languageCode = "en-us"
+title = "The DevOps Toolkit Series"
+theme = "forty"
+
+# Enter your tracking code to enable Google Analytics
+googleAnalytics = "UA-174219852-1"
+
+# Enter your disqus shortname to enable comments
+disqusShortname = ""
+
+[params]
+
+  # Provide your metadata here.
+  name = "Viktor Farcic"
+  description = "Books and courses dedicated to DevOps practices and tools"
+
+  # Link custom assets relative to /static
+  custom_css = []
+  custom_js  = []
+  favicon    = "favicon.ico"
+
+  # Just a custom image variable, please define it in .md files for content.
+  image = ""
+
+  # 404 error customization
+  [params.error404]
+    heading = "Page couldn't be found"
+    text = "Please visit [this page](/)"
+
+  # Navigation Section
+  # TODO: Remove params
+  [params.navigation]
+    title = "The DevOps Toolkit Series"
+    subtitle = "By Viktor Farcic"
+    menu = "Menu"
+    # Optional logo as brand stored in img/
+    # logo = "logo.png"
+
+    [[params.navigation.links]]
+      name = "Home"
+      url = "#"
+
+  # Banner section
+  [params.banner]
+    # To change the background image on the homepage banner, replace 'banner.jpg' in
+    # the 'static/img' folder.
+    title = "The DevOps Toolkit Series"
+    subtitle = "Where DevOps becomes practice"
+    buttonText = "Get Started"
+
+
+  # Tiles Section
+  [params.tiles]
+    enable = true
+    # Display your showcases here.
+
+    [[params.tiles.showcase]]
+      title = "The DevOps Toolkit"
+      subtitle = "Catalog, Patterns, And Blueprints"
+      image = "catalog-small.jpg"
+      url = "posts/catalog"
+
+    [[params.tiles.showcase]]
+      title = "Kubernetes Chaos Engineering"
+      subtitle = "Kubernetes Chaos Engineering With Chaos Toolkit And Istio"
+      image = "chaos-small.jpg"
+      url = "posts/chaos"
+
+    [[params.tiles.showcase]]
+      title = "Canary Deployments"
+      subtitle = "Canary Deployments To Kubernetes Using Istio and Friends"
+      image = "canary-small.jpg"
+      url = "posts/canary"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.6 Toolkit"
+      subtitle = "Jenkins X"
+      image = "devops26-small.jpg"
+      url = "posts/devops-26"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.5 Toolkit"
+      subtitle = "Monitoring, Logging, and Auto-Scaling Kubernetes"
+      image = "devops25-small.jpg"
+      url = "posts/devops-25"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.4 Toolkit"
+      subtitle = "Continuous Deployment To Kubernetes"
+      image = "devops24-small.png"
+      url = "posts/devops-24"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.3 Toolkit"
+      subtitle = "Kubernetes"
+      image = "devops23-small.jpg"
+      url = "posts/devops-23"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.2 Toolkit"
+      subtitle = "Building Self-Adaptive And Self-Healing Docker Clusters"
+      image = "devops22-small.jpg"
+      url = "posts/devops-22"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.1 Toolkit"
+      subtitle = "Building, testing, deploying, and monitoring services inside Docker Swarm clusters"
+      image = "devops21-small.png"
+      url = "posts/devops-21"
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.0 Toolkit"
+      subtitle = "Automating the Continuous Deployment Pipeline with Containerized Microservices"
+      image = "devops20-small.jpg"
+      url = "posts/devops-20"
+
+  [params.blog]
+    # All blogs defined in their own files. You can find example blogs
+    # at 'exampleSite/content/blogs'. Copy the 'blogs' folder into the 'content' directory
+    # at the root of this Hugo site.
+    # For more informtion take a look at the README.
+    # To add more blogs just copy and paste the code.
+
+  # Footer section
+  [params.footer]
+    enable = true
+    copyright = "Viktor Farcic"
+
+    # Uses font awesome icons
+    [[params.footer.social]]
+      icon = "fa-twitter"
+      url= "https://www.twitter.com/vfarcic"
+      label = "Twitter"
+
+    [[params.footer.social]]
+      icon = "fa-github"
+      url= "https://www.github.com/vfarcic"
+      label = "GitHub"
+
+    [[params.footer.social]]
+      icon = "fa-linkedin"
+      url= "https://www.linkedin.com/in/viktorfarcic/"
+      label = "LinkedIn"

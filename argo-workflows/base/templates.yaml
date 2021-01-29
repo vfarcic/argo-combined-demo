@@ -10,13 +10,17 @@ spec:
   - name: build-kaniko-git
     inputs:
       parameters:
-      - name: app_repo
+      - name: repo_url
+      - name: repo_ref
+        value: refs/heads/master
+      - name: repo_commit_id
+        value: HEAD
       - name: container_image
       - name: container_tag
     container:
       image: gcr.io/kaniko-project/executor:debug
       args:
-      - --context={{inputs.parameters.app_repo}}
+      - --context={{inputs.parameters.repo_url}}#{{inputs.parameters.repo_ref}}#{{inputs.parameters.repo_commit_id}}
       - --destination={{inputs.parameters.container_image}}:{{inputs.parameters.container_tag}}
       volumeMounts:
         - name: regcred
