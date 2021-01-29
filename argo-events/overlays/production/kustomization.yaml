@@ -6,10 +6,4 @@ resources:
 - sensors.yaml
 - githubcred.yaml
 namespace: argo-events
-patches:
-- path: ingress_patch.json
-  target:
-    group: networking.k8s.io
-    kind: Ingress
-    name: github
-    version: v1
+

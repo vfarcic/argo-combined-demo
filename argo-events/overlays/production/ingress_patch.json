@@ -1,7 +1,0 @@
-[
-  {
-    "op": "replace",
-    "path": "/spec/rules/0/host",
-    "value": "webhook.40.88.225.223.xip.io"
-  }
-]

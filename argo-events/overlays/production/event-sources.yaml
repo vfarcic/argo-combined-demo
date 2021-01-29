@@ -17,7 +17,7 @@ spec:
         endpoint: /argo-workflows-demo
         port: "12000"
         method: POST
-        url: http://webhook.52.151.221.85.xip.io
+        url: http://webhook.40.88.225.223.xip.io
       events:
         - "*"
       apiToken:
@@ -48,4 +48,4 @@ spec:
            name: github-eventsource-svc
            port:
              number: 12000
-    host: acme.com
+    host: webhook.40.88.225.223.xip.io
