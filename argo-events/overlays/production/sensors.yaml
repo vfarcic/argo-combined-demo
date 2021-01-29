@@ -53,3 +53,6 @@ spec:
                         value: vfarcic/devops-toolkit
                       - name: container_tag
                         value: "1.0.0"
+                  # TODO: Push to the staging repo
+                  # TODO: Run functional tests
+                  # TODO: Push to the production repo (use Canary deployments)
