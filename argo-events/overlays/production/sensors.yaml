@@ -71,4 +71,5 @@ spec:
           parameters:
           - src:
               dependencyName: github
-            dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
+            dest: spec.templates.1.container.args.0
+            # dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
