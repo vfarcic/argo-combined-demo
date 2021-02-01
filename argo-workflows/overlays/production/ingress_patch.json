@@ -2,6 +2,6 @@
   {
     "op": "replace",
     "path": "/spec/rules/0/host",
-    "value": "argo-workflows.20.185.14.39.xip.io"
+    "value": "argo-workflows.69.164.223.210.xip.io"
   }
 ]
