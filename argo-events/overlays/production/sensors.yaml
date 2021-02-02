@@ -85,7 +85,33 @@ spec:
                         value: ""
                       - name: tag
                         value: ""
-                    # TODO: Add the dependency
+                    dependencies:
+                    - build
+                  - name: test-functional
+                    template: test
+                    dependencies:
+                    - promote-staging
+                  - name: promote-production
+                    template: promote
+                    arguments:
+                      parameters:
+                      - name: environment
+                        value: staging
+                      - name: repo_owner
+                      # TODO: Replace
+                        value: vfarcic
+                      - name: repo_name
+                        value: argo-combined-demo
+                      - name: image_owner
+                      # TODO: Replace
+                        value: vfarcic
+                      - name: image_name
+                        value: ""
+                      - name: tag
+                        value: ""
+                    dependencies:
+                    - test-functional
+              # TODO: Change to a separate file
               - name: promote
                 inputs:
                   parameters:
@@ -100,7 +126,6 @@ spec:
                   command: [sh]
                   source: |
                     set -e
-                    ls -la /.github/
                     git clone https://$(cat /.github/token)@github.com/{{inputs.parameters.repo_owner}}/{{inputs.parameters.repo_name}}
                     cd {{inputs.parameters.repo_name}}
                     cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
@@ -110,8 +135,18 @@ spec:
                     git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
                     git push
                   volumeMounts:
-                    - name: github-access
-                      mountPath: /.github/
+                  - name: github-access
+                    mountPath: /.github/
+              - name: test
+                script:
+                  image: alpine
+                  command: [sh]
+                  source: |
+                    echo This is a testing simulation...
+                    sleep 30
+                  volumeMounts:
+                  - name: github-access
+                    mountPath: /.github/
         parameters:
         - src:
             dependencyName: github
