@@ -71,16 +71,16 @@ spec:
                   parameters:
                   - name: clone_url
                   - name: repo_name
-                container:
+                script:
                   image: vfarcic/kustomize:3.9.2
-                  command: [sh, -c]
-                  args:
-                  - echo "Test 2";
-                  - git clone {{inputs.parameters.clone_url}};
-                  - cd {{inputs.parameters.repo_name}};
-                  - cat staging/argo-combined-demo.yaml; # TODO: Remove
-                  - cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g" # TODO: Replace vfarcic with params
-                  - cat staging/argo-combined-demo.yaml; # TODO: Remove
+                  command: [sh]
+                  source: |
+                    echo "Test 2"
+                    git clone {{inputs.parameters.clone_url}}
+                    cd {{inputs.parameters.repo_name}}
+                    cat staging/argo-combined-demo.yaml # TODO: Remove
+                    cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g" # TODO: Replace vfarcic with params
+                    cat staging/argo-combined-demo.yaml # TODO: Remove
         parameters:
         - src:
             dependencyName: github
