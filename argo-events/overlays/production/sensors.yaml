@@ -96,7 +96,7 @@ spec:
                     arguments:
                       parameters:
                       - name: environment
-                        value: staging
+                        value: production
                       - name: repo_owner
                       # TODO: Replace
                         value: vfarcic
@@ -121,6 +121,8 @@ spec:
                   - name: image_owner
                   - name: image_name
                   - name: tag
+                  - name: create_pr
+                    value: false
                 script:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh]
