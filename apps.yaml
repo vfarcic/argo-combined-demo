@@ -1,3 +1,5 @@
+---
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -13,7 +15,30 @@ spec:
     path: production
   destination:
     server: https://kubernetes.default.svc
-    namespace: argo
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: staging
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: staging
+  source:
+    repoURL: https://github.com/vfarcic/argo-combined-demo.git
+    targetRevision: HEAD
+    path: staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: staging
   syncPolicy:
     automated:
       selfHeal: true

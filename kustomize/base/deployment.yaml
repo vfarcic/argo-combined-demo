@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: argo-combined-demo
-        image: vfarcic/argo-combined-demo:latest
+        image: vfarcic/argo-combined-demo
         ports:
         - containerPort: 80
         livenessProbe:

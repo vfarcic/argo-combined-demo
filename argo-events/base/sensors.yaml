@@ -70,9 +70,9 @@ spec:
                 #   - name: message
                 container:
                   image: vfarcic/kustomize:3.9.2
-                  command: [ls]
+                  command: [sh, -c]
                   args:
-                  - -l
+                  - git clone https://github.com/
         parameters:
         - src:
             dependencyName: github
