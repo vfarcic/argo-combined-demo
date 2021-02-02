@@ -176,3 +176,4 @@ spec:
             dependencyName: github
             dataKey: body.after
           dest: spec.templates.0.dag.tasks.1.arguments.parameters.5.value
+
