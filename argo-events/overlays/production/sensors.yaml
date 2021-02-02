@@ -100,18 +100,19 @@ spec:
                   command: [sh]
                   source: |
                     set -e
-                    ls -la /.github/
+                    env
+                    ls -la /github/
                     git clone https://$(.github/token)@github.com/{{inputs.parameters.repo_owner}}/{{inputs.parameters.repo_name}}
                     cd {{inputs.parameters.repo_name}}
                     cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
-                    git config user.name "$(.github/user)"
-                    git config user.email "$(.github/email)"
+                    git config user.name "$(github/user)"
+                    git config user.email "$(github/email)"
                     git add {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
                     git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
                     git push
                   volumeMounts:
                     - name: github-access
-                      mountPath: /.github/
+                      mountPath: /github/
         parameters:
         - src:
             dependencyName: github
