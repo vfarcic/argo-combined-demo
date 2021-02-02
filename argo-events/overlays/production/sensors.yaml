@@ -74,12 +74,10 @@ spec:
                       - name: environment
                         value: staging
                       - name: repo_owner
-                      # TODO: Replace
                         value: vfarcic
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                      # TODO: Replace
                         value: vfarcic
                       - name: image_name
                         value: ""
@@ -98,12 +96,10 @@ spec:
                       - name: environment
                         value: production
                       - name: repo_owner
-                      # TODO: Replace
                         value: vfarcic
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                      # TODO: Replace
                         value: vfarcic
                       - name: image_name
                         value: ""
@@ -121,9 +117,6 @@ spec:
                   - name: image_owner
                   - name: image_name
                   - name: tag
-                  # TODO: Uncomment and finish
-                  # - name: create_pr
-                  #   value: "false"
                 script:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh]
