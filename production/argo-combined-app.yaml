@@ -6,9 +6,9 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: staging
+  project: production
   source:
-    path: kustomize/overlays/staging
+    path: kustomize/overlays/production
     repoURL: https://github.com/vfarcic/argo-combined-app
     targetRevision: HEAD
     kustomize:
