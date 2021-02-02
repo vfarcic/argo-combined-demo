@@ -54,9 +54,9 @@ spec:
                       - name: repo_commit_id
                         value: ""
                       - name: container_image
-                        value: /devops-toolkit
+                        value: ""
                       - name: container_tag
-                        value: "1.0.0"
+                        value: ""
                   - name: promote-staging
                     template: promote
                     arguments:
@@ -72,14 +72,14 @@ spec:
                   - name: clone_url
                   - name: repo_name
                 container:
-                  image: /kustomize:3.9.2
+                  image: vfarcic/kustomize:3.9.2
                   command: [sh, -c]
                   args:
                   - echo "Test 1"
                   - git clone {{inputs.parameters.repo_url}};
                   - cd {{inputs.parameters.repo_name}};
                   - ls -l
-                  # - cat staging/argo-combined-demo.yaml | sed -e "s@- /argo-combined-demo:.*@- /argo-combined-demo:xxx@g"
+                  # - cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g"
         parameters:
         - src:
             dependencyName: github
