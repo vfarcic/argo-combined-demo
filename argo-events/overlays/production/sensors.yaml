@@ -10,7 +10,7 @@ spec:
   dependencies:
   - name: github
     eventSourceName: github
-    eventName: argo-combined-demo
+    eventName: argo-combined-app
   triggers:
   - template:
       name: trigger
@@ -24,7 +24,7 @@ spec:
             apiVersion: argoproj.io/v1alpha1
             kind: Workflow
             metadata:
-              generateName: argo-combined-demo-
+              generateName: argo-combined-app-
               namespace: workflows
             spec:
               entrypoint: build
@@ -62,7 +62,7 @@ spec:
                     arguments:
                       parameters:
                       - name: environment
-                        value: "staging"
+                        value: staging
                       - name: clone_url
                         value: ""
                       - name: repo_name
@@ -87,12 +87,11 @@ spec:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh]
                   source: |
-                    echo "Test 5" # TODO: Remove
                     git clone {{inputs.parameters.clone_url}}
                     cd {{inputs.parameters.repo_name}}
-                    cat staging/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee staging/argo-combined-demo.yaml
-                    git add staging/{{inputs.parameters.image_name}}.yaml
-                    git commit -m "Upgraded staging/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
+                    cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+                    git add {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+                    git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
                     git push
         parameters:
         - src:

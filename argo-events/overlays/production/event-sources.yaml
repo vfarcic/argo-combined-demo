@@ -10,11 +10,11 @@ spec:
     - port: 12000
       targetPort: 12000
   github:
-    argo-combined-demo:
+    argo-workflows-demo:
       owner: vfarcic
-      repository: argo-combined-demo
+      repository: argo-combined-app
       webhook:
-        endpoint: /argo-combined-demo
+        endpoint: /argo-combined-app
         port: "12000"
         method: POST
         url: http://webhook.20.72.166.144.xip.io
