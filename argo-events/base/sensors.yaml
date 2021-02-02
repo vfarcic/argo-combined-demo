@@ -57,6 +57,22 @@ spec:
                         value: vfarcic/devops-toolkit
                       - name: container_tag
                         value: "1.0.0"
+                  - name: promote-staging
+                    template: promote
+                    # arguments:
+                    #   parameters:
+                    #   - name: environment
+                    #     value: staging
+                    # TODO: Add the dependency
+              - name: promote
+                # inputs:
+                #   parameters:
+                #   - name: message
+                container:
+                  image: vfarcic/kustomize:3.9.2
+                  command: [ls]
+                  args:
+                  - -l
         parameters:
         - src:
             dependencyName: github
