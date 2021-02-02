@@ -87,11 +87,13 @@ spec:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh]
                   source: |
-                    echo "Test 3"
+                    echo "Test 5" # TODO: Remove
                     git clone {{inputs.parameters.clone_url}}
                     cd {{inputs.parameters.repo_name}}
                     cat staging/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee staging/argo-combined-demo.yaml
-                    cat staging/{{inputs.parameters.image_name}}.yaml # TODO: Remove
+                    git add staging/{{inputs.parameters.image_name}}.yaml
+                    git commit -m "Upgraded staging/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
+                    git push
         parameters:
         - src:
             dependencyName: github
