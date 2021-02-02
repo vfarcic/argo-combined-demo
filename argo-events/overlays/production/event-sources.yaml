@@ -10,14 +10,14 @@ spec:
     - port: 12000
       targetPort: 12000
   github:
-    argo-combined-app:
+    argo-workflows-demo:
       owner: vfarcic
       repository: argo-combined-app
       webhook:
         endpoint: /argo-combined-app
         port: "12000"
         method: POST
-        url: http://webhook.20.72.166.144.xip.io
+        url: http://webhook.20.62.231.31.xip.io
       events:
         - "*"
       apiToken:
@@ -48,4 +48,4 @@ spec:
            name: github-eventsource-svc
            port:
              number: 12000
-    host: webhook.20.72.166.144.xip.io
+    host: webhook.20.62.231.31.xip.io

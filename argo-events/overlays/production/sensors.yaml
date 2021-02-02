@@ -68,7 +68,10 @@ spec:
                       - name: container_tag
                         value: ""
                   - name: promote-staging
-                    template: promote
+                    templateRef:
+                      name: promote
+                      template: promote
+                      clusterScope: true
                     arguments:
                       parameters:
                       - name: environment
@@ -90,7 +93,10 @@ spec:
                     dependencies:
                     - promote-staging
                   - name: promote-production
-                    template: promote
+                    templateRef:
+                      name: promote
+                      template: promote
+                      clusterScope: true
                     arguments:
                       parameters:
                       - name: environment
@@ -107,33 +113,6 @@ spec:
                         value: ""
                     dependencies:
                     - test-functional
-              # TODO: Change to a separate file
-              - name: promote
-                inputs:
-                  parameters:
-                  - name: environment
-                  - name: repo_owner
-                  - name: repo_name
-                  - name: image_owner
-                  - name: image_name
-                  - name: tag
-                script:
-                  image: vfarcic/kustomize:3.9.2
-                  command: [sh]
-                  source: |
-                    set -e
-                    git clone https://$(cat /.github/token)@github.com/{{inputs.parameters.repo_owner}}/{{inputs.parameters.repo_name}}
-                    cd {{inputs.parameters.repo_name}}
-                    echo "cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e \"s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g\""
-                    cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
-                    git config user.name "$(cat /.github/user)"
-                    git config user.email "$(cat /.github/email)"
-                    git add {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
-                    git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
-                    git push
-                  volumeMounts:
-                  - name: github-access
-                    mountPath: /.github/
               - name: test
                 script:
                   image: alpine
