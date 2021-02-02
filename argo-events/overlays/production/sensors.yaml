@@ -78,8 +78,8 @@ spec:
                 inputs:
                   parameters:
                   - name: environment
-                  - name: clone_url
-                  - name: repo_name
+                  - name: https://github.com/vfarcic/argo-combined-demo
+                  - name: argo-combined-demo
                   - name: image_owner
                   - name: image_name
                   - name: tag
