@@ -67,7 +67,7 @@ spec:
                         # TODO: Replace in the setup phase
                         value: https://github.com/vfarcic/argo-combined-demo
                       - name: repo_name
-                        value: argo-combined-app
+                        value: argo-combined-demo
                       - name: image_owner
                         value: ""
                       - name: image_name
