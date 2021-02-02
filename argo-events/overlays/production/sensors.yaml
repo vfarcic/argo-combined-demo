@@ -119,14 +119,6 @@ spec:
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
         - src:
             dependencyName: github
-            dataKey: body.repository.clone_url
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.1.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.2.value
-        - src:
-            dependencyName: github
             dataKey: body.repository.owner.name
           dest: spec.templates.0.dag.tasks.1.arguments.parameters.3.value
         - src:
