@@ -76,7 +76,7 @@ spec:
                   command: [sh, -c]
                   args:
                   - echo "Test 1"
-                  - git clone {{inputs.parameters.repo_url}};
+                  - git clone {{inputs.parameters.clone_url}};
                   - cd {{inputs.parameters.repo_name}};
                   - ls -l
                   # - cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g"
