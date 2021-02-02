@@ -75,6 +75,7 @@ spec:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh, -c]
                   args:
+                  - echo "Test 1"
                   - git clone {{inputs.parameters.repo_url}};
                   - cd {{inputs.parameters.repo_name}};
                   - ls -l
