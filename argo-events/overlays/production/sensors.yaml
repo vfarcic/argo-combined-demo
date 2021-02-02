@@ -75,11 +75,12 @@ spec:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh, -c]
                   args:
-                  - echo "Test 1"
+                  - echo "Test 1";
                   - git clone {{inputs.parameters.clone_url}};
                   - cd {{inputs.parameters.repo_name}};
-                  - ls -l
-                  # - cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g"
+                  - cat staging/argo-combined-demo.yaml; # TODO: Remove
+                  - cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g" # TODO: Replace vfarcic with params
+                  - cat staging/argo-combined-demo.yaml; # TODO: Remove
         parameters:
         - src:
             dependencyName: github
