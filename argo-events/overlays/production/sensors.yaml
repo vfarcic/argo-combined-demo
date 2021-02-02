@@ -64,9 +64,10 @@ spec:
                       - name: environment
                         value: staging
                       - name: clone_url
-                        value: ""
+                        # TODO: Replace in the setup phase
+                        value: https://github.com/vfarcic/argo-combined-demo
                       - name: repo_name
-                        value: ""
+                        value: argo-combined-demo
                       - name: image_owner
                         value: ""
                       - name: image_name
@@ -74,12 +75,13 @@ spec:
                       - name: tag
                         value: ""
                     # TODO: Add the dependency
+                    
               - name: promote
                 inputs:
                   parameters:
                   - name: environment
-                  - name: https://github.com/vfarcic/argo-combined-demo
-                  - name: argo-combined-demo
+                  - name: clone_url
+                  - name: repo_name
                   - name: image_owner
                   - name: image_name
                   - name: tag
