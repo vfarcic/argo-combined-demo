@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argo-combined-demo-staging
+  name: argo-combined-app-staging
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,7 +9,7 @@ spec:
   project: staging
   source:
     path: kustomize/overlays/staging
-    repoURL: https://github.com/vfarcic/argo-combined-demo
+    repoURL: https://github.com/vfarcic/argo-combined-app
     targetRevision: HEAD
     kustomize:
       images:

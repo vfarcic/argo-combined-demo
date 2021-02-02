@@ -67,7 +67,7 @@ spec:
                         # TODO: Replace in the setup phase
                         value: https://github.com/vfarcic/argo-combined-demo
                       - name: repo_name
-                        value: argo-combined-demo
+                        value: argo-combined-app
                       - name: image_owner
                         value: ""
                       - name: image_name
@@ -89,6 +89,7 @@ spec:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh]
                   source: |
+                    set -e
                     git clone {{inputs.parameters.clone_url}}
                     cd {{inputs.parameters.repo_name}}
                     cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
