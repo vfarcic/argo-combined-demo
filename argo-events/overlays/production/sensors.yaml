@@ -48,8 +48,33 @@ spec:
                     arguments:
                       parameters:
                       - name: repo_url
-                        value: git://github.com/vfarcic/argo-combined-demo
+                        value: ""
+                      - name: repo_ref
+                        value: ""
+                      - name: repo_commit_id
+                        value: ""
                       - name: container_image
-                        value: vfarcic/argo-combined-demo
+                        value: vfarcic/devops-toolkit
                       - name: container_tag
                         value: "1.0.0"
+        parameters:
+        - src:
+            dependencyName: github
+            dataKey: body.repository.git_url
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.ref
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.1.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.after
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.full_name
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.3.value
+        - src:
+            dependencyName: github
+            dataKey: body.after
+          dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
