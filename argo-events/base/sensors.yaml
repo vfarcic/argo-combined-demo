@@ -59,20 +59,26 @@ spec:
                         value: "1.0.0"
                   - name: promote-staging
                     template: promote
-                    # arguments:
-                    #   parameters:
-                    #   - name: environment
-                    #     value: staging
+                    arguments:
+                      parameters:
+                      - name: clone_url
+                        value: ""
+                      - name: repo_name
+                        value: ""
                     # TODO: Add the dependency
               - name: promote
-                # inputs:
-                #   parameters:
-                #   - name: message
+                inputs:
+                  parameters:
+                  - name: clone_url
+                  - name: repo_name
                 container:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh, -c]
                   args:
-                  - git clone https://github.com/
+                  - git clone {{inputs.parameters.repo_url}};
+                  - cd {{inputs.parameters.repo_name}};
+                  - ls -l
+                  # - cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g"
         parameters:
         - src:
             dependencyName: github
@@ -94,3 +100,11 @@ spec:
             dependencyName: github
             dataKey: body.after
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.clone_url
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.0.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.name
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.1.value
