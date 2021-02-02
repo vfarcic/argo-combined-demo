@@ -64,11 +64,11 @@ spec:
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
         - src:
             dependencyName: github
-            dataKey: body.repository.ref
+            dataKey: body.ref
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.1.value
         - src:
             dependencyName: github
-            dataKey: body.repository.after
+            dataKey: body.after
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
         - src:
             dependencyName: github
