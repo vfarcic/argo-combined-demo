@@ -36,6 +36,16 @@ spec:
                   items:
                     - key: .dockerconfigjson
                       path: config.json
+              - name: github-access
+                secret:
+                  secretName: github-access
+                  items:
+                    - key: token
+                      path: token
+                    - key: user
+                      path: user
+                    - key: email
+                      path: email
               templates:
               - name: build
                 dag:
@@ -63,39 +73,45 @@ spec:
                       parameters:
                       - name: environment
                         value: staging
-                      - name: clone_url
-                        # TODO: Replace in the setup phase
-                        value: https://github.com/vfarcic/argo-combined-demo
+                      - name: repo_owner
+                      # TODO: Replace
+                        value: vfarcic
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: ""
+                      # TODO: Replace
+                        value: vfarcic
                       - name: image_name
                         value: ""
                       - name: tag
                         value: ""
                     # TODO: Add the dependency
-                    
               - name: promote
                 inputs:
                   parameters:
                   - name: environment
-                  - name: clone_url
+                  - name: repo_owner
                   - name: repo_name
                   - name: image_owner
                   - name: image_name
                   - name: tag
                 script:
-                  image: vfarcic/kustomize:3.9.2
+                  image: vfarcic/kustomize:3.9.2-1
                   command: [sh]
                   source: |
                     set -e
-                    git clone {{inputs.parameters.clone_url}}
-                    cd {{inputs.parameters.repo_name}}
-                    cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
-                    git add {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
-                    git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
-                    git push
+                    ls -la /.github/
+                    # git clone https://TODO:TOKEN@github.com/{{inputs.parameters.repo_owner}}/{{inputs.parameters.repo_name}}
+                    # cd {{inputs.parameters.repo_name}}
+                    # cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+                    # TODO: git config user.name "Mona Lisa"
+                    # TODO: git config user.email "Mona Lisa"
+                    # git add {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+                    # git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
+                    # git push
+                  volumeMounts:
+                    - name: github-access
+                      mountPath: /.github/
         parameters:
         - src:
             dependencyName: github
@@ -117,10 +133,6 @@ spec:
             dependencyName: github
             dataKey: body.after
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.owner.name
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.3.value
         - src:
             dependencyName: github
             dataKey: body.repository.name
