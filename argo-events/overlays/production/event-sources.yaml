@@ -10,7 +10,7 @@ spec:
     - port: 12000
       targetPort: 12000
   github:
-    argo-combined-demo:
+    argo-combined-app:
       owner: vfarcic
       repository: argo-combined-app
       webhook:
