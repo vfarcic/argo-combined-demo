@@ -61,26 +61,37 @@ spec:
                     template: promote
                     arguments:
                       parameters:
+                      - name: environment
+                        value: "staging"
                       - name: clone_url
                         value: ""
                       - name: repo_name
+                        value: ""
+                      - name: image_owner
+                        value: ""
+                      - name: image_name
+                        value: ""
+                      - name: tag
                         value: ""
                     # TODO: Add the dependency
               - name: promote
                 inputs:
                   parameters:
+                  - name: environment
                   - name: clone_url
                   - name: repo_name
+                  - name: image_owner
+                  - name: image_name
+                  - name: tag
                 script:
                   image: vfarcic/kustomize:3.9.2
                   command: [sh]
                   source: |
-                    echo "Test 2"
+                    echo "Test 3"
                     git clone {{inputs.parameters.clone_url}}
                     cd {{inputs.parameters.repo_name}}
-                    cat staging/argo-combined-demo.yaml # TODO: Remove
-                    cat staging/argo-combined-demo.yaml | sed -e "s@- vfarcic/argo-combined-demo:.*@- vfarcic/argo-combined-demo:xxx@g" # TODO: Replace vfarcic with params
-                    cat staging/argo-combined-demo.yaml # TODO: Remove
+                    cat staging/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee staging/argo-combined-demo.yaml
+                    cat staging/{{inputs.parameters.image_name}}.yaml # TODO: Remove
         parameters:
         - src:
             dependencyName: github
@@ -105,8 +116,20 @@ spec:
         - src:
             dependencyName: github
             dataKey: body.repository.clone_url
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.0.value
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.1.value
         - src:
             dependencyName: github
             dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.1.value
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.2.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.owner.name
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.3.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.name
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.4.value
+        - src:
+            dependencyName: github
+            dataKey: body.after
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.5.value
