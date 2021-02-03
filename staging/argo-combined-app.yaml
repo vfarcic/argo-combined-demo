@@ -13,7 +13,7 @@ spec:
     targetRevision: HEAD
     kustomize:
       images:
-      - vfarcic/argo-combined-app:8c4f0925a92024036f17908537e6295ae41ce4c8
+      - vfarcic/argo-combined-app:d63b94dc678a7ae3ff5d4154af6a15f996bdf959
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
