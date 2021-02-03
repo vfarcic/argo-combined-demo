@@ -4,10 +4,5 @@ resources:
 - ../../base
 - ../workflows
 - regcred.yaml
-patches:
-- path: ingress_patch.json
-  target:
-    group: networking.k8s.io
-    kind: Ingress
-    name: argo-server
-    version: v1
+- ingress.yaml
+namespace: argo

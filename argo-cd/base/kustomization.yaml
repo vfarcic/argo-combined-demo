@@ -5,5 +5,4 @@ resources:
 - github.com/argoproj/argo-cd/manifests/crds
 - github.com/argoproj/argo-cd/manifests/base
 - github.com/argoproj/argo-cd/manifests/cluster-rbac/
-- ingress.yaml
 namespace: argocd
