@@ -2,5 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - namespace.yaml
-- github.com/argoproj/argo-rollouts/manifests/cluster-install
+- clusterrolebinding.yaml
+- github.com/argoproj/argo-rollouts/manifests/crds
+- github.com/argoproj/argo-rollouts/manifests/base
+- github.com/argoproj/argo-rollouts/manifests/role
 namespace: argo-rollouts
