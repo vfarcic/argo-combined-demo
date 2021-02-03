@@ -16,6 +16,7 @@ spec:
       - vfarcic/argo-combined-app:d63b94dc678a7ae3ff5d4154af6a15f996bdf959
   destination:
     server: https://kubernetes.default.svc
+    namespace: staging
   syncPolicy:
     automated:
       selfHeal: true
