@@ -77,11 +77,11 @@ spec:
                       - name: environment
                         value: staging
                       - name: repo_owner
-                        value: 
+                        value: vfarcic
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: 
+                        value: vfarcic
                       - name: image_name
                         value: ""
                       - name: tag
@@ -98,11 +98,11 @@ spec:
                       - name: environment
                         value: production
                       - name: repo_owner
-                        value: 
+                        value: vfarcic
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: 
+                        value: vfarcic
                       - name: image_name
                         value: ""
                       - name: tag
