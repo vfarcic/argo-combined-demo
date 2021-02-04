@@ -110,7 +110,6 @@ spec:
                     dependencies:
                     - test-functional
                     - test-integration
-
                   - name: test-functional
                     template: test
                     dependencies:
