@@ -11,10 +11,6 @@ spec:
     path: manifests/charts/gateways/istio-egress
     repoURL: https://github.com/istio/istio.git
     targetRevision: HEAD
-    helm:
-      values: |
-        global:
-          tag: 1.8.2
   destination:
     namespace: istio-system
     server: https://kubernetes.default.svc
