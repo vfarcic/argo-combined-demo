@@ -88,14 +88,6 @@ spec:
                         value: ""
                     dependencies:
                     - build
-                  - name: test-functional
-                    template: test
-                    dependencies:
-                    - promote-staging
-                  - name: test-integration
-                    template: test
-                    dependencies:
-                    - promote-staging
                   - name: promote-production
                     templateRef:
                       name: promote
@@ -118,6 +110,15 @@ spec:
                     dependencies:
                     - test-functional
                     - test-integration
+
+                  - name: test-functional
+                    template: test
+                    dependencies:
+                    - promote-staging
+                  - name: test-integration
+                    template: test
+                    dependencies:
+                    - promote-staging
               - name: test
                 script:
                   image: alpine
@@ -160,9 +161,9 @@ spec:
         - src:
             dependencyName: github
             dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.4.arguments.parameters.4.value
+          dest: spec.templates.0.dag.tasks.2.arguments.parameters.4.value
         - src:
             dependencyName: github
             dataKey: body.after
-          dest: spec.templates.0.dag.tasks.4.arguments.parameters.5.value
+          dest: spec.templates.0.dag.tasks.2.arguments.parameters.5.value
 
