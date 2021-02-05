@@ -81,7 +81,7 @@ spec:
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: vfarcic
+                        value: CHANGE_ME_IMAGE_OWNER
                       - name: image_name
                         value: ""
                       - name: tag
@@ -102,7 +102,7 @@ spec:
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: vfarcic
+                        value: CHANGE_ME_IMAGE_OWNER
                       - name: image_name
                         value: ""
                       - name: tag
