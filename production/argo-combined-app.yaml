@@ -11,9 +11,6 @@ spec:
     path: kustomize/overlays/production
     repoURL: https://github.com/vfarcic/argo-combined-app
     targetRevision: HEAD
-    kustomize:
-      images:
-      - vfarcic/argo-combined-app
   destination:
     server: https://kubernetes.default.svc
     namespace: production
