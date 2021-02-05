@@ -13,7 +13,7 @@ spec:
     targetRevision: HEAD
     kustomize:
       images:
-      - vfarcic/argo-combined-app
+      - vfarcic/argo-combined-app:latest
   destination:
     server: https://kubernetes.default.svc
     namespace: staging
