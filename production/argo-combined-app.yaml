@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-combined-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: production
+  source:
+    path: kustomize/overlays/production
+    repoURL: https://github.com/vfarcic/argo-combined-app
+    targetRevision: HEAD
+    kustomize:
+      images:
+      - vfarcic/argo-combined-app:3d09993d3ff5fc7458e420f4850d771fed7c8ab5
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+
