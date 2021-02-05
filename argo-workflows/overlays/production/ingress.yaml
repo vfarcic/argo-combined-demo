@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argo-workflows
-  namespace: argo
   annotations:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/ssl-redirect: "false"
@@ -18,5 +17,5 @@ spec:
            name: argo-server
            port:
              number: 2746
-    host: argo-workflows.52.249.240.246.xip.io
+    host: argo-workflows.52.191.88.247.xip.io
 
