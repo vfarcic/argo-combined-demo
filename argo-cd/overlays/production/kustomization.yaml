@@ -12,4 +12,5 @@ patches:
     name: argocd-redis
 patchesStrategicMerge:
 - server.yaml
+- repo-server.yaml
 namespace: argocd
