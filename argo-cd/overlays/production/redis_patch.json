@@ -1,0 +1,8 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/securityContext/runAsNonRoot",
+    "value": false
+  }
+]
+
