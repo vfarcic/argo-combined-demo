@@ -64,7 +64,7 @@ spec:
                       - name: repo_commit_id
                         value: ""
                       - name: container_image
-                        value: ""
+                        value: vfarcic/
                       - name: container_tag
                         value: ""
                   - name: promote-staging
@@ -143,8 +143,9 @@ spec:
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
         - src:
             dependencyName: github
-            dataKey: body.repository.full_name
+            dataKey: body.repository.name
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.3.value
+          operation: append
         - src:
             dependencyName: github
             dataKey: body.after
