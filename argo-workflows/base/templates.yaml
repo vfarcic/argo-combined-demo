@@ -51,7 +51,10 @@ spec:
         set -e
         git clone https://$(cat /.github/token)@github.com/{{inputs.parameters.repo_owner}}/{{inputs.parameters.repo_name}}
         cd {{inputs.parameters.repo_name}}
-        sleep 1
+        sleep 2
+        echo BEFORE:
+        cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+        echo AFTER:
         cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
         git config user.name "$(cat /.github/user)"
         git config user.email "$(cat /.github/email)"
