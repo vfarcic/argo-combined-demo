@@ -1,5 +1,4 @@
 ---
-
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
@@ -7,11 +6,11 @@ metadata:
 spec:
   service:
     ports:
-    - port: 12000
-      targetPort: 12000
+      - port: 12000
+        targetPort: 12000
   github:
     argo-combined-app:
-      owner: vfarcic
+      owner: sianrachel
       repository: argo-combined-app
       webhook:
         endpoint: /argo-combined-app
@@ -28,7 +27,6 @@ spec:
       contentType: json
 
 ---
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -39,13 +37,13 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-           name: github-eventsource-svc
-           port:
-             number: 12000
-    host: acme.com
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: github-eventsource-svc
+                port:
+                  number: 12000
+      host: acme.com

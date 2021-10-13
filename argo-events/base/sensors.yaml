@@ -1,5 +1,4 @@
 ---
-
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
@@ -8,162 +7,161 @@ spec:
   template:
     serviceAccountName: argo-events-sa
   dependencies:
-  - name: github
-    eventSourceName: github
-    eventName: argo-combined-app
+    - name: github
+      eventSourceName: github
+      eventName: argo-combined-app
   triggers:
-  - template:
-      name: trigger
-      argoWorkflow:
-        group: argoproj.io
-        version: v1alpha1
-        resource: workflows
-        operation: submit
-        source:
-          resource:
-            apiVersion: argoproj.io/v1alpha1
-            kind: Workflow
-            metadata:
-              generateName: argo-combined-app-
-              namespace: workflows
-            spec:
-              entrypoint: build
-              serviceAccountName: workflow
-              volumes:
-              - name: regcred
-                secret:
-                  secretName: regcred
-                  items:
-                    - key: .dockerconfigjson
-                      path: config.json
-              - name: github-access
-                secret:
-                  secretName: github-access
-                  items:
-                    - key: token
-                      path: token
-                    - key: user
-                      path: user
-                    - key: email
-                      path: email
-              templates:
-              - name: build
-                dag:
-                  tasks:
-                  - name: build
-                    templateRef:
-                      name: container-image
-                      template: build-kaniko-git
-                      clusterScope: true
-                    arguments:
-                      parameters:
-                      - name: repo_url
-                        value: ""
-                      - name: repo_ref
-                        value: ""
-                      - name: repo_commit_id
-                        value: ""
-                      - name: container_image
-                        value: CHANGE_ME_IMAGE_OWNER/
-                      - name: container_tag
-                        value: ""
-                  - name: promote-staging
-                    templateRef:
-                      name: promote
-                      template: promote
-                      clusterScope: true
-                    arguments:
-                      parameters:
-                      - name: environment
-                        value: staging
-                      - name: repo_owner
-                        value: vfarcic
-                      - name: repo_name
-                        value: argo-combined-demo
-                      - name: image_owner
-                        value: CHANGE_ME_IMAGE_OWNER
-                      - name: image_name
-                        value: ""
-                      - name: tag
-                        value: ""
-                    dependencies:
-                    - build
-                  - name: promote-production
-                    templateRef:
-                      name: promote
-                      template: promote
-                      clusterScope: true
-                    arguments:
-                      parameters:
-                      - name: environment
-                        value: production
-                      - name: repo_owner
-                        value: vfarcic
-                      - name: repo_name
-                        value: argo-combined-demo
-                      - name: image_owner
-                        value: CHANGE_ME_IMAGE_OWNER
-                      - name: image_name
-                        value: ""
-                      - name: tag
-                        value: ""
-                    dependencies:
-                    - test-functional
-                    - test-integration
-                  - name: test-functional
-                    template: test
-                    dependencies:
-                    - promote-staging
-                  - name: test-integration
-                    template: test
-                    dependencies:
-                    - promote-staging
-              - name: test
-                script:
-                  image: alpine
-                  command: [sh]
-                  source: |
-                    echo This is a testing simulation...
-                    sleep 5
-                  volumeMounts:
+    - template:
+        name: trigger
+        argoWorkflow:
+          group: argoproj.io
+          version: v1alpha1
+          resource: workflows
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: argo-combined-app-
+                namespace: workflows
+              spec:
+                entrypoint: build
+                serviceAccountName: workflow
+                volumes:
+                  - name: regcred
+                    secret:
+                      secretName: regcred
+                      items:
+                        - key: .dockerconfigjson
+                          path: config.json
                   - name: github-access
-                    mountPath: /.github/
-        parameters:
-        - src:
-            dependencyName: github
-            dataKey: body.repository.git_url
-          dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
-        - src:
-            dependencyName: github
-            dataKey: body.ref
-          dest: spec.templates.0.dag.tasks.0.arguments.parameters.1.value
-        - src:
-            dependencyName: github
-            dataKey: body.after
-          dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.0.arguments.parameters.3.value
-          operation: append
-        - src:
-            dependencyName: github
-            dataKey: body.after
-          dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.4.value
-        - src:
-            dependencyName: github
-            dataKey: body.after
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.5.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.2.arguments.parameters.4.value
-        - src:
-            dependencyName: github
-            dataKey: body.after
-          dest: spec.templates.0.dag.tasks.2.arguments.parameters.5.value
-
+                    secret:
+                      secretName: github-access
+                      items:
+                        - key: token
+                          path: token
+                        - key: user
+                          path: user
+                        - key: email
+                          path: email
+                templates:
+                  - name: build
+                    dag:
+                      tasks:
+                        - name: build
+                          templateRef:
+                            name: container-image
+                            template: build-kaniko-git
+                            clusterScope: true
+                          arguments:
+                            parameters:
+                              - name: repo_url
+                                value: ""
+                              - name: repo_ref
+                                value: ""
+                              - name: repo_commit_id
+                                value: ""
+                              - name: container_image
+                                value: CHANGE_ME_IMAGE_OWNER/
+                              - name: container_tag
+                                value: ""
+                        - name: promote-staging
+                          templateRef:
+                            name: promote
+                            template: promote
+                            clusterScope: true
+                          arguments:
+                            parameters:
+                              - name: environment
+                                value: staging
+                              - name: repo_owner
+                                value: sianrachel
+                              - name: repo_name
+                                value: argo-combined-demo
+                              - name: image_owner
+                                value: CHANGE_ME_IMAGE_OWNER
+                              - name: image_name
+                                value: ""
+                              - name: tag
+                                value: ""
+                          dependencies:
+                            - build
+                        - name: promote-production
+                          templateRef:
+                            name: promote
+                            template: promote
+                            clusterScope: true
+                          arguments:
+                            parameters:
+                              - name: environment
+                                value: production
+                              - name: repo_owner
+                                value: sianrachel
+                              - name: repo_name
+                                value: argo-combined-demo
+                              - name: image_owner
+                                value: CHANGE_ME_IMAGE_OWNER
+                              - name: image_name
+                                value: ""
+                              - name: tag
+                                value: ""
+                          dependencies:
+                            - test-functional
+                            - test-integration
+                        - name: test-functional
+                          template: test
+                          dependencies:
+                            - promote-staging
+                        - name: test-integration
+                          template: test
+                          dependencies:
+                            - promote-staging
+                  - name: test
+                    script:
+                      image: alpine
+                      command: [sh]
+                      source: |
+                        echo This is a testing simulation...
+                        sleep 5
+                      volumeMounts:
+                        - name: github-access
+                          mountPath: /.github/
+          parameters:
+            - src:
+                dependencyName: github
+                dataKey: body.repository.git_url
+              dest: spec.templates.0.dag.tasks.0.arguments.parameters.0.value
+            - src:
+                dependencyName: github
+                dataKey: body.ref
+              dest: spec.templates.0.dag.tasks.0.arguments.parameters.1.value
+            - src:
+                dependencyName: github
+                dataKey: body.after
+              dest: spec.templates.0.dag.tasks.0.arguments.parameters.2.value
+            - src:
+                dependencyName: github
+                dataKey: body.repository.name
+              dest: spec.templates.0.dag.tasks.0.arguments.parameters.3.value
+              operation: append
+            - src:
+                dependencyName: github
+                dataKey: body.after
+              dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
+            - src:
+                dependencyName: github
+                dataKey: body.repository.name
+              dest: spec.templates.0.dag.tasks.1.arguments.parameters.4.value
+            - src:
+                dependencyName: github
+                dataKey: body.after
+              dest: spec.templates.0.dag.tasks.1.arguments.parameters.5.value
+            - src:
+                dependencyName: github
+                dataKey: body.repository.name
+              dest: spec.templates.0.dag.tasks.2.arguments.parameters.4.value
+            - src:
+                dependencyName: github
+                dataKey: body.after
+              dest: spec.templates.0.dag.tasks.2.arguments.parameters.5.value

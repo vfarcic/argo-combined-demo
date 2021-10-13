@@ -64,7 +64,7 @@ spec:
                       - name: repo_commit_id
                         value: ""
                       - name: container_image
-                        value: vfarcic/
+                        value: /
                       - name: container_tag
                         value: ""
                   - name: promote-staging
@@ -77,11 +77,11 @@ spec:
                       - name: environment
                         value: staging
                       - name: repo_owner
-                        value: vfarcic
+                        value: 
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: vfarcic
+                        value: 
                       - name: image_name
                         value: ""
                       - name: tag
@@ -98,11 +98,11 @@ spec:
                       - name: environment
                         value: production
                       - name: repo_owner
-                        value: vfarcic
+                        value: 
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
-                        value: vfarcic
+                        value: 
                       - name: image_name
                         value: ""
                       - name: tag
