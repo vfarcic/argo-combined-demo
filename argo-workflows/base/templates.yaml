@@ -19,6 +19,7 @@ spec:
       - name: container_tag
     container:
       image: gcr.io/kaniko-project/executor:debug
+      ommand: [/kaniko/executor]
       args:
       - --context={{inputs.parameters.repo_url}}#{{inputs.parameters.repo_ref}}#{{inputs.parameters.repo_commit_id}}
       - --destination={{inputs.parameters.container_image}}:{{inputs.parameters.container_tag}}
