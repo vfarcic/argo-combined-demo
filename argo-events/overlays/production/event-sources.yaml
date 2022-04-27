@@ -11,13 +11,13 @@ spec:
       targetPort: 12000
   github:
     argo-combined-app:
-      owner: vfarcic
+      owner: Artiston
       repository: argo-combined-app
       webhook:
         endpoint: /argo-combined-app
         port: "12000"
         method: POST
-        url: http://webhook.127.0.0.1.nip.io
+        url: http://webhook.212.2.243.44.nip.io
       events:
         - "*"
       apiToken:
@@ -48,4 +48,4 @@ spec:
            name: github-eventsource-svc
            port:
              number: 12000
-    host: webhook.127.0.0.1.nip.io
+    host: webhook.212.2.243.44.nip.io
