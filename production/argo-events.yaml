@@ -8,9 +8,22 @@ metadata:
 spec:
   project: production
   source:
-    path: argo-events/overlays/production
-    repoURL: https://github.com/Artiston/argo-combined-demo
+    path: charts/argo-events
+    repoURL: https://github.com/argoproj/argo-helm.git
     targetRevision: HEAD
+    helm:
+      values: |
+        server: 
+          ingress:
+            - hosts:
+              - argo-cd.$BASE_HOST
+            enabled: true
+            ingressClassName: nginx
+          extraArgs:
+            - --insecure
+        controller:
+          extraArgs:
+            appResyncPeriod
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
