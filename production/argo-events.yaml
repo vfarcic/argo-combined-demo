@@ -8,7 +8,7 @@ metadata:
 spec:
   project: production
   source:
-    path: argo/argo-events
+    path: charts/argo-events
     repoURL: https://github.com/argoproj/argo-helm.git
     targetRevision: HEAD
     helm:
