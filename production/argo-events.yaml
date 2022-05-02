@@ -16,14 +16,9 @@ spec:
         server: 
           ingress:
             - hosts:
-              - argo-cd.$BASE_HOST
+              - webhook.$BASE_HOST
             enabled: true
             ingressClassName: nginx
-          extraArgs:
-            - --insecure
-        controller:
-          extraArgs:
-            appResyncPeriod
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
