@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argo-cd
+  name: argo-workflows
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: production
   source:
-    path: charts/argo-cd
+    path: charts/argo-workflows
     repoURL: https://github.com/argoproj/argo-helm.git
     targetRevision: HEAD
     helm:
@@ -16,17 +16,13 @@ spec:
         server: 
           ingress:
             hosts:
-              - argo-cd.212.2.245.35.nip.io
+              - argo-workflows.212.2.245.35.nip.io
             enabled: true
             ingressClassName: nginx
-          extraArgs:
-            - --insecure
-        controller:
-          extraArgs:
-            appResyncPeriod: 30
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
+
