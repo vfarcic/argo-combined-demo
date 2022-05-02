@@ -16,7 +16,7 @@ spec:
         server: 
           ingress:
             - hosts:
-              - webhook.$BASE_HOST
+              - webhook.212.2.245.35.nip.io
             enabled: true
             ingressClassName: nginx
   destination:
