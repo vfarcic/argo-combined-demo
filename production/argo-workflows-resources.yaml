@@ -12,6 +12,7 @@ spec:
     repoURL: https://github.com/Artiston/argo-combined-demo
     targetRevision: HEAD
   destination:
+    namespace: argo
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
