@@ -11,18 +11,13 @@ spec:
     path: charts/argo-events
     repoURL: https://github.com/argoproj/argo-helm.git
     targetRevision: HEAD
-    helm:
-      values: |
-        server: 
-          ingress:
-            hosts:
-              - webhook.212.2.245.35.nip.io
-            enabled: true
-            ingressClassName: nginx
   destination:
+    namespace: argo-events
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
+    syncOptions:
+    - CreateNamespace=true
 
