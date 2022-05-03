@@ -17,7 +17,7 @@ spec:
         endpoint: /argo-combined-app
         port: "12000"
         method: POST
-        url: http://webhook.212.2.245.35.nip.io
+        url: http://webhook.212.2.242.174.nip.io
       events:
         - "*"
       apiToken:
@@ -34,10 +34,10 @@ kind: Ingress
 metadata:
   name: github
   annotations:
+    kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  ingressClassName: nginx
   rules:
   - http:
       paths:
@@ -48,4 +48,4 @@ spec:
            name: github-eventsource-svc
            port:
              number: 12000
-    host: webhook.212.2.245.35.nip.io
+    host: webhook.212.2.242.174.nip.io
