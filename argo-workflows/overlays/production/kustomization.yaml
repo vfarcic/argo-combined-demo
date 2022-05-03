@@ -4,4 +4,3 @@ resources:
 - ../../base
 - ../workflows
 - regcred.yaml
-- ingress.yaml
