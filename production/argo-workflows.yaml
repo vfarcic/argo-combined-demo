@@ -19,6 +19,8 @@ spec:
               - argo-workflows.212.2.242.174.nip.io
             enabled: true
             ingressClassName: nginx
+        controller:
+          containerRuntimeExecutor: emissary
   destination:
     namespace: argo
     server: https://kubernetes.default.svc
