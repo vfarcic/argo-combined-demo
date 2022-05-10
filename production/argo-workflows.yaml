@@ -16,7 +16,7 @@ spec:
         server: 
           ingress:
             hosts:
-              - argo-workflows.212.2.242.174.nip.io
+              - argo-workflows.212.2.241.255.nip.io
             enabled: true
             ingressClassName: nginx
         controller:

@@ -3,6 +3,4 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - templates.yaml
-patchesStrategicMerge:
-- config.yaml
 namespace: argo
