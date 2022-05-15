@@ -8,13 +8,26 @@ metadata:
 spec:
   project: production
   source:
-    path: argo-workflows/overlays/production
-    repoURL: https://github.com/vfarcic/argo-combined-demo
+    path: charts/argo-workflows
+    repoURL: https://github.com/argoproj/argo-helm.git
     targetRevision: HEAD
+    helm:
+      values: |
+        server: 
+          ingress:
+            hosts:
+              - acme.com
+            enabled: true
+            ingressClassName: nginx
+        controller:
+          containerRuntimeExecutor: emissary
   destination:
+    namespace: argo
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
+    syncOptions:
+    - CreateNamespace=true
 
