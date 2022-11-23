@@ -65,3 +65,26 @@ spec:
       volumeMounts:
       - name: github-access
         mountPath: /.github/
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterWorkflowTemplate
+metadata:
+  name: custom-json
+spec:
+  serviceAccountName: workflow
+  templates:
+  - name: custom-json
+    inputs:
+      parameters:
+      - name: stage
+      - name: author
+    container:
+      image: milsman2/custom-json:v1.0.0
+      command: [python, ./app/main.py]
+      args:
+      - --Author={{inputs.parameters.author}}
+      - --Stage={{inputs.parameters.stage}}
+      volumeMounts:
+        - name: slack-access
+          mountPath: /.env/
