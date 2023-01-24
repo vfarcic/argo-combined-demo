@@ -40,28 +40,25 @@ spec:
     inputs:
       parameters:
       - name: environment
-      - name: repo_owner
-      - name: repo_name
-      - name: image_owner
-      - name: image_name
-      - name: tag
+      - name: repo_commit_id
+      - name: repo_full_name
     script:
-      image: vfarcic/kustomize:3.9.2
+      image: bitnami/git
       command: [sh]
       source: |
         set -e
-        git clone https://$(cat /.github/token)@github.com/{{inputs.parameters.repo_owner}}/{{inputs.parameters.repo_name}}
-        cd {{inputs.parameters.repo_name}}
-        sleep 2
+        mkdir gitrepo
+        git clone --depth=1 https://$(cat /.github/user):$(cat /.github/token)@github.com/{{inputs.parameters.repo_full_name}} gitrepo
+        cd gitrepo/kustomize/overlays/{{inputs.parameters.environment}}
         echo BEFORE:
-        cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+        cat kustomization.yaml
         echo AFTER:
-        cat {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml | sed -e "s@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:.*@- {{inputs.parameters.image_owner}}/{{inputs.parameters.image_name}}:{{inputs.parameters.tag}}@g" | tee {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
+        cat kustomization.yaml | sed -e 's@newTag.*@newTag: "{{inputs.parameters.repo_commit_id}}"@g'| tee kustomization.yaml
         git config user.name "$(cat /.github/user)"
         git config user.email "$(cat /.github/email)"
-        git add {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml
-        git commit -m "Upgraded {{inputs.parameters.environment}}/{{inputs.parameters.image_name}}.yaml with the tag {{inputs.parameters.tag}}"
-        git push
+        git commit -a -m "Upgraded kustomize/overlays/{{inputs.parameters.environment}}/kustomization.yaml with the repo_commit_id {{inputs.parameters.repo_commit_id}}"
+        git checkout -b {{inputs.parameters.environment}}
+        git push -u origin {{inputs.parameters.environment}} -f
       volumeMounts:
       - name: github-access
         mountPath: /.github/

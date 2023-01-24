@@ -1,5 +1,3 @@
----
-
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
@@ -27,7 +25,7 @@ spec:
               generateName: argo-combined-app-
               namespace: workflows
             spec:
-              entrypoint: build
+              entrypoint: check-branch
               serviceAccountName: workflow
               volumes:
               - name: regcred
@@ -53,7 +51,7 @@ spec:
               - name: build
                 dag:
                   tasks:
-                  - name: build
+                  - name: build-step
                     templateRef:
                       name: container-image
                       template: build-kaniko-git
@@ -78,19 +76,13 @@ spec:
                     arguments:
                       parameters:
                       - name: environment
-                        value: staging
-                      - name: repo_owner
-                        value: vfarcic
-                      - name: repo_name
-                        value: argo-combined-demo
-                      - name: image_owner
-                        value: vfarcic
-                      - name: image_name
+                        value: "staging"
+                      - name: repo_commit_id
                         value: ""
-                      - name: tag
+                      - name: repo_full_name
                         value: ""
                     dependencies:
-                    - build
+                    - build-step
                   - name: promote-production
                     templateRef:
                       name: promote
@@ -99,16 +91,10 @@ spec:
                     arguments:
                       parameters:
                       - name: environment
-                        value: production
-                      - name: repo_owner
-                        value: vfarcic
-                      - name: repo_name
-                        value: argo-combined-demo
-                      - name: image_owner
-                        value: vfarcic
-                      - name: image_name
+                        value: "production"
+                      - name: repo_commit_id
                         value: ""
-                      - name: tag
+                      - name: repo_full_name
                         value: ""
                     dependencies:
                     - test-functional
@@ -133,7 +119,7 @@ spec:
                       - name: author
                         value: ""
                     dependencies:
-                    - build
+                    - build-step
                   - name: push-notification
                     templateRef:
                       name: custom-json
@@ -168,7 +154,31 @@ spec:
                   volumeMounts:
                   - name: github-access
                     mountPath: /.github/
+              - name: check-branch
+                steps:
+                - - name: step-py-check-condition
+                    template: py-check-condition
+                    arguments:
+                      parameters:
+                      - name: ref
+                        value: placeholder
+                - - name: step-build-dag-if-true
+                    template: build
+                    when: "{{steps.step-py-check-condition.outputs.result}}"
+              - name: py-check-condition
+                inputs:
+                  parameters:
+                  - name: ref
+                script:
+                  image: python:alpine3.9
+                  command: [python]
+                  source: |
+                    ref = "{{inputs.parameters.ref}}"
+                    condition = ref == "refs/heads/main"
+                    print(str(condition).lower())
+
         parameters:
+        # build-step
         - src:
             dependencyName: github
             dataKey: body.repository.git_url
@@ -190,26 +200,34 @@ spec:
             dependencyName: github
             dataKey: body.after
           dest: spec.templates.0.dag.tasks.0.arguments.parameters.4.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.4.value
-        - src:
-            dependencyName: github
-            dataKey: body.after
-          dest: spec.templates.0.dag.tasks.1.arguments.parameters.5.value
-        - src:
-            dependencyName: github
-            dataKey: body.repository.name
-          dest: spec.templates.0.dag.tasks.2.arguments.parameters.4.value
+
+        # promote-staging
         - src:
             dependencyName: github
             dataKey: body.after
-          dest: spec.templates.0.dag.tasks.2.arguments.parameters.5.value
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.1.value
         - src:
             dependencyName: github
-            dataKey: body.repository.owner.name
-          dest: spec.templates.0.dag.tasks.4.arguments.parameters.1.value
+            dataKey: body.repository.full_name
+          dest: spec.templates.0.dag.tasks.1.arguments.parameters.2.value
+
+        # promote-production
+        - src:
+            dependencyName: github
+            dataKey: body.after
+          dest: spec.templates.0.dag.tasks.2.arguments.parameters.1.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.full_name
+          dest: spec.templates.0.dag.tasks.2.arguments.parameters.2.value
+
+        # py-check-condition
+        - src:
+            dependencyName: github
+            dataKey: body.ref
+          dest: spec.templates.2.steps.0.0.arguments.parameters.0.value
+
+        # slack messages
         - src:
             dependencyName: github
             dataKey: body.repository.owner.name
@@ -218,3 +236,7 @@ spec:
             dependencyName: github
             dataKey: body.repository.owner.name
           dest: spec.templates.0.dag.tasks.6.arguments.parameters.1.value
+        - src:
+            dependencyName: github
+            dataKey: body.repository.owner.name
+          dest: spec.templates.0.dag.tasks.7.arguments.parameters.1.value
