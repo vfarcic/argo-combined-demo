@@ -10,7 +10,7 @@ spec:
   source:
     path: kustomize/overlays/staging
     repoURL: https://github.com/vfarcic/argo-combined-app
-    targetRevision: staging
+    targetRevision: HEAD
     kustomize:
       images:
       - vfarcic/argo-combined-app:latest
